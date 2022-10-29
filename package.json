@@ -1,0 +1,26 @@
+{
+  "name": "mern-goals-app",
+  "version": "1.0.0",
+  "description": "App to manage and set goals/tasks",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Niz97/mern-goals-app.git"
+  },
+  "author": "Niran Prajapati",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Niz97/mern-goals-app/issues"
+  },
+  "homepage": "https://github.com/Niz97/mern-goals-app#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^6.7.0"
+  }
+}
