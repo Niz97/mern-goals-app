@@ -15,8 +15,13 @@ const createGoal = async(goalData, token) => {
 }
 
 // Get all goals for auth user
-const get = async(userData) => {
-  const response = await axios.get(API_URL, userData)
+const getGoals = async(token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+  const response = await axios.get(API_URL, config)
 
   if (response.data) {
     console.log('Retrieved all user goals')
@@ -27,6 +32,6 @@ const get = async(userData) => {
 
 const goalService = {
   createGoal,
-  get,
+  getGoals,
 }
 export default goalService
