@@ -9,10 +9,28 @@ const initialState = {
   message: '',
 }
 
-// Get all auth user goals
+// Create new goal
+export const createGoal = createAsyncThunk(
+  'goals/create',
+  async(goalData, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token
+      return await goalService.createGoal(goalData, token)
+    } catch (error) {
+      const message = 
+        (error.response && 
+          error.response.data && 
+          error.response.data.message) || 
+        error.message || 
+        error.toString()
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
 
+// Get all auth user goals
 export const get = createAsyncThunk(
-  'goals/goalService',
+  'goals/get',
   async (user, thunkAPI) => {
   try {
     return await goalService.get(user)
@@ -31,10 +49,25 @@ export const goalSlice = createSlice({
   name: 'goal',
   initialState,
   reducers: {
-    reset: (state) => initialState
-    } 
+    reset: (state) => initialState,
   },
-)
+  extraReducers: (builder) => {
+    builder
+      .addCase(createGoal.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(createGoal.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.goals.push(action.payload)
+      })
+      .addCase(createGoal.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+      })
+  },
+})
 
 export const { reset } = goalSlice.actions
 export default goalSlice.reducer
